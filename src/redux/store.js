@@ -1,9 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit'
-import pageReducer from '../features/PageSlice'
 import modalReducer from '../features/ModalSlice'
+import usersReducer from '../features/UsersSlice'
 export default configureStore({
     reducer: {
-        page: pageReducer,
         modal: modalReducer,
+        users: usersReducer
     }
 })

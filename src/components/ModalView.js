@@ -2,7 +2,7 @@ import Modal from 'react-modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { close } from '../features/ModalSlice'
 import { Formik } from 'formik';
-
+import {addUser} from '../features/UsersSlice'
 const customStyles = {
     content: {
         top: '50%',
@@ -20,7 +20,15 @@ function ModalView() {
 
     const modal = useSelector(state => state.modal.value)
     const dispatch = useDispatch()
-
+    const onAddUser = (user) => {
+        console.log(user)
+        try{
+            dispatch(addUser(user)).unwrap()
+            dispatch(close())
+        } catch(e){
+            console.log(e.response)
+        } 
+    }
     return (
         <Modal
             isOpen={modal}
@@ -29,10 +37,10 @@ function ModalView() {
             contentLabel="Example Modal"
         >
             <Formik
-                initialValues={{ firstName: '', lastName:'', title: '', picture:''}}
+                initialValues={{ firstName: '', lastName:'', title: '', picture:'', email:''}}
                 onSubmit={(values, { setSubmitting }) => {
                     setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
+                        onAddUser(values)
                         setSubmitting(false);
                     }, 400);
                 }}
@@ -63,6 +71,15 @@ function ModalView() {
                             type="text"
                             name="lastName"
                             value={values.lastName}
+                            className="block w-80 border-1 py-1 px-2 mb-2"
+                            onChange={handleChange}
+
+                        />
+                        <label className="font-bold text-md" >Email:</label>
+                        <input
+                            type="text"
+                            name="email"
+                            value={values.email}
                             className="block w-80 border-1 py-1 px-2 mb-2"
                             onChange={handleChange}
 
